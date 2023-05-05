@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <link href="{% static "falcon/public/assets/css/theme.min.css" %}" rel="stylesheet">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  {% block extra_css %}
+
+  {% endblock %}
+</head>
+<body>
+
+{% include 'navigation.html' %}
+
+<div class="container-fluid" data-layout="container">
+  <div class="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</div>
+
+{% block extra_js %}
+  <script src="{% static "falcon/public/vendors/popper/popper.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/bootstrap/bootstrap.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/list.js/list.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/anchorjs/anchor.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/countup/countUp.umd.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/is/is.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/lodash/lodash.min.js" %}"></script>
+  <script src="{% static "falcon/public/assets/js/theme.min.js" %}"></script>
+  <script src="{% static "falcon/public/vendors/fontawesome/all.min.js" %}"></script>
+{% endblock %}
+</body>
+</html>

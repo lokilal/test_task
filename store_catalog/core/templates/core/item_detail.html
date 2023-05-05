@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6 mb-4 mb-lg-0 pb-6">
+          <div class="product-slider" id="galleryTop">
+            <div class="swiper-container theme-slider position-lg-absolute all-0" data-swiper='{"autoHeight":true,"spaceBetween":5,"loop":true,"loopedSlides":5,"thumb":{"spaceBetween":5,"slidesPerView":5,"loop":true,"freeMode":true,"grabCursor":true,"loopedSlides":5,"centeredSlides":true,"slideToClickedSlide":true,"watchSlidesVisibility":true,"watchSlidesProgress":true,"parent":"#galleryTop"},"slideToClickedSlide":true}'>
+              <div class="swiper-wrapper h-100">
+                {% for image in object.images.all %}
+                  <div class="swiper-slide h-100">
+                    <img class="rounded-1 fit-cover h-100 w-100" src="{{ image.image.url }}" alt="">
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="swiper-nav">
+                <div class="swiper-button-next swiper-button-white"></div>
+                <div class="swiper-button-prev swiper-button-white"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6" style="height: 40em">
+          <h5>{{ object.title }}</h5>
+          <a class="fs--1 mb-2 d-block">{{ object.category.title }}</a>
+          <p class="fs--1">
+            {{ object.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+
+  </style>
+{% endblock %}
+
+{% block extra_css %}
+  {{ block.super }}
+  <link href="{% static "falcon/public/vendors/swiper/swiper-bundle.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script src="{% static "falcon/public/vendors/swiper/swiper-bundle.min.js" %}"></script>
+{% endblock %}

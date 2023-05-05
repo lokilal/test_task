@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Товары
+{% endblock %}
+
+
+{% block content %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row">
+        {% for obj in object_list %}
+          <div class="col-sm-12 col-md-2">
+            <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+              <div class="overflow-hidden">
+                <div class="position-relative rounded-top">
+                  <a href="{% url 'item-detail' obj.pk %}">
+                    <img class="card-img-top" src="{{ obj.images.first.image.url }}" alt="">
+                  </a>
+                </div>
+                <div class="p-3">
+                  <h5 class="fs-0">
+                    <a href="{% url 'item-detail' obj.pk %}">Название товара</a>
+                  </h5>
+                  <p class="fs--1 mb-3">
+                    <a class="text-500">{{ obj.category.title }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block extra_css %}
+  <style>
+    .card-img-top {
+      width: 100%;
+      height: 15vw;
+      object-fit: cover;
+    }
+  </style>
+{% endblock %}
