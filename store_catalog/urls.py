@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LoginView
 
 from core.autocomplete import ItemAutocompleteView
 from core.views import \
@@ -35,5 +36,9 @@ urlpatterns = [
          CategoryDetailView.as_view(), name='category'),
     path('category/<slug:category_slug>/<slug:item_slug>/',
          ItemDetailView.as_view(), name='item-detail'),
+
+    path('accounts/login/',
+         LoginView.as_view(template_name='login.html'),
+         name='login')
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
