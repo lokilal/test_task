@@ -3,26 +3,46 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="{% static "falcon/public/assets/css/theme.min.css" %}" rel="stylesheet">
 
   <title>{% block title %}{% endblock %}</title>
 
   {% block extra_css %}
+    {{ filter.form.media.css }}
+    <style>
+      .filter-form {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
 
-  {% endblock %}
+      .filter-form > div {
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .select2 .form-select {
+        padding: 0;
+        background-image: none;
+      }
+    </style>
+{% endblock %}
 </head>
 <body>
 
 {% include 'navigation.html' %}
 
 <div class="container-fluid" data-layout="container">
-  <div class="content">
+  <div class="content p-2">
     {% block content %}
     {% endblock %}
   </div>
 </div>
 
 {% block extra_js %}
+  <script src="{% static "js/jquery-3.6.3.min.js" %}"></script>
   <script src="{% static "falcon/public/vendors/popper/popper.min.js" %}"></script>
   <script src="{% static "falcon/public/vendors/bootstrap/bootstrap.min.js" %}"></script>
   <script src="{% static "falcon/public/vendors/list.js/list.min.js" %}"></script>
@@ -32,6 +52,7 @@
   <script src="{% static "falcon/public/vendors/lodash/lodash.min.js" %}"></script>
   <script src="{% static "falcon/public/assets/js/theme.min.js" %}"></script>
   <script src="{% static "falcon/public/vendors/fontawesome/all.min.js" %}"></script>
+  {{ filter.form.media.js }}
 {% endblock %}
 </body>
 </html>

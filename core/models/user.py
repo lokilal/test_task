@@ -11,7 +11,8 @@ class User(AbstractUser):
     role = models.PositiveSmallIntegerField(
         choices=RoleChoice.choices, verbose_name='Роль',
         default=RoleChoice.USER)
-    allowed_categories = models.ManyToManyField('core.Category')
+    allowed_categories = models.ManyToManyField(
+        'core.Category', blank=True)
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -22,5 +23,5 @@ class User(AbstractUser):
         return self.role == self.RoleChoice.ADMIN or self.is_superuser
 
     @property
-    def is_moderator(self):
+    def is_manager(self):
         return self.role == self.RoleChoice.MANAGER

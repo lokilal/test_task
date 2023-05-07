@@ -1,5 +1,6 @@
 from django.db import models
 from autoslug import AutoSlugField
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -31,9 +32,16 @@ class Item(models.Model):
         verbose_name='Описание')
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата создания')
+    slug = AutoSlugField(
+        populate_from='title', unique=True, db_index=True)
+
+    def get_absolute_url(self):
+        return reverse('item-detail',
+                       kwargs={'category_slug': self.category.slug,
+                               'item_slug': self.slug})
 
     def __str__(self):
-        return f'{self.title}: {self.category.title}'
+        return self.title
 
     class Meta:
         verbose_name = 'Товар'

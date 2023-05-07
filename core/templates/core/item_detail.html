@@ -25,7 +25,9 @@
         </div>
         <div class="col-lg-6" style="height: 40em">
           <h5>{{ object.title }}</h5>
-          <a class="fs--1 mb-2 d-block">{{ object.category.title }}</a>
+          <a class="fs--1 mb-2 d-block" href="{% url 'category' object.category.slug %}">
+            {{ object.category.title }}
+          </a>
           <p class="fs--1">
             {{ object.description }}
           </p>

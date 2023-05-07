@@ -1,5 +1,8 @@
 django>=3.2,<4.0
+crispy-bootstrap5==0.7
 psycopg2-binary==2.9.5
 django-autoslug==1.9.9
+django-filter==22.1
+django-autocomplete-light==3.9.4
 pytils==0.4.1
 Pillow==9.5.0

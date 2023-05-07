@@ -1,46 +1,67 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}
 Товары
 {% endblock %}
 
-
 {% block content %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <div class="row">
-        {% for obj in object_list %}
-          <div class="col-sm-12 col-md-2">
-            <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
-              <div class="overflow-hidden">
-                <div class="position-relative rounded-top">
-                  <a href="{% url 'item-detail' obj.pk %}">
-                    <img class="card-img-top" src="{{ obj.images.first.image.url }}" alt="">
-                  </a>
-                </div>
-                <div class="p-3">
-                  <h5 class="fs-0">
-                    <a href="{% url 'item-detail' obj.pk %}">Название товара</a>
-                  </h5>
-                  <p class="fs--1 mb-3">
-                    <a class="text-500">{{ obj.category.title }}</a>
-                  </p>
+  <div class="row g-3">
+    <div class="col-xl-4 order-xl-1">
+      <div class="card">
+        <div class="card-header bg-light btn-reveal-trigger d-flex flex-between-center">
+          <h5>Поиск товаров</h5>
+          <a href="{% url 'category' view.kwargs.category_slug %}" class="align-right text-600">Сбросить фильтры</a>
+        </div>
+        <div class="card-body">
+          <form method="GET">
+            {% csrf_token %}
+            {{ filter.form|crispy }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            {% for obj in object_list %}
+              <div class="col-sm-12 col-md-2">
+                <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                  <div class="overflow-hidden">
+                    <div class="position-relative rounded-top">
+                      <a href="{{ obj.get_absolute_url }}">
+                        <img class="card-img-top" src="{{ obj.images.first.image.url }}" alt="">
+                      </a>
+                    </div>
+                    <div class="p-3">
+                      <h5 class="fs-0">
+                        <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
+                      </h5>
+                      <p class="fs--1 mb-3">
+                        <a class="text-500" href="{% url 'category' obj.category.slug %}">{{ obj.category.title }}</a>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endfor %}
           </div>
-        {% endfor %}
+        </div>
       </div>
     </div>
   </div>
 {% endblock %}
 
-
 {% block extra_css %}
+  {{ block.super }}
   <style>
     .card-img-top {
       width: 100%;
-      height: 15vw;
+      height: 10vw;
       object-fit: cover;
     }
   </style>
