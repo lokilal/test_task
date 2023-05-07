@@ -2,7 +2,7 @@ from urllib.parse import urljoin
 
 from dal import autocomplete
 from django.urls import reverse
-from django_filters import FilterSet, CharFilter
+from django_filters import FilterSet
 
 from core.models import Item
 

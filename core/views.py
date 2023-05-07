@@ -1,13 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView
-from django_filters.views import FilterView
-from extra_views import UpdateWithInlinesView, NamedFormsetsMixin
-
-from core.forms import ImageInline
-from core.filters import ItemFilterSet
-from core.models import Item, Category
-
 from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import DetailView, ListView
+from django_filters.views import FilterView
+from extra_views import NamedFormsetsMixin, UpdateWithInlinesView
+
+from core.filters import ItemFilterSet
+from core.forms import ImageInline
+from core.models import Category, Item
+
 
 class AccessMixin(LoginRequiredMixin):
 
@@ -26,10 +26,8 @@ class AccessMixin(LoginRequiredMixin):
         if user.is_manager:
             if self.model is Item:
                 return self.get_allowed_items()
-            elif self.model is Category:
-                return self.get_allowed_categories()
-        elif user.is_admin:
-            return super().get_queryset()
+            return self.get_allowed_categories()
+        return super().get_queryset()
 
 
 class ItemDetailView(AccessMixin, DetailView):
@@ -72,4 +70,3 @@ class ItemUpdateView(AccessMixin, SuccessMessageMixin, NamedFormsetsMixin,
         form = super().get_form_class()
         form.base_fields['category'].queryset = self.get_allowed_categories()
         return form
-

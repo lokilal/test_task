@@ -1,5 +1,5 @@
-from extra_views import InlineFormSetFactory
 from django import forms
+from extra_views import InlineFormSetFactory
 
 from core.models import Image
 
@@ -13,4 +13,4 @@ class ImageForm(forms.ModelForm):
 class ImageInline(InlineFormSetFactory):
     model = Image
     form_class = ImageForm
-    factory_kwargs  = {'extra': 1}
+    factory_kwargs = {'extra': 1}
