@@ -20,8 +20,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from core.autocomplete import ItemAutocompleteView
-from core.views import (CategoryDetailView, CategoryListView, ItemDetailView,
-                        ItemUpdateView)
+from core.views import (CategoryDetailView, CategoryListView, ItemCreateView,
+                        ItemDeleteView, ItemDetailView, ItemUpdateView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +38,10 @@ urlpatterns = [
          ItemDetailView.as_view(), name='item-detail'),
     path('category/<slug:category_slug>/<slug:item_slug>/update/',
          ItemUpdateView.as_view(), name='item-update'),
+    path('item/create/',
+         ItemCreateView.as_view(), name='item-create'),
+    path('item/<slug:item_slug>/delete/',
+         ItemDeleteView.as_view(), name='item-delete'),
 
     path('accounts/login/',
          LoginView.as_view(template_name='users/login.html'),

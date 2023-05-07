@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Удаление товара
+{% endblock %}
+
+{% block content %}
+  <div class="card my-3">
+    <div class="card-header d-flex flex-between-center">
+      <h3 class="mb-0">Удаление товара</h3>
+    </div>
+    <div class="card-body bg-light">
+      <p>Вы точно хотите удалить этот товар ?</p>
+      <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <p>
+          <button type="submit" class="btn btn-danger">Удалить</button>
+          <a class="btn btn-secondary" href="{% url 'item-update' view.object.category.slug view.object.slug  %}">Отмена</a>
+        </p>
+      </form>
+    </div>
+  </div>
+{% endblock %}

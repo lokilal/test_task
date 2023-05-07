@@ -6,6 +6,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'categories' %}">Все категории</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'item-create' %}">Создать товар</a>
+        </li>
       </ul>
       <div class="ms-auto">
         {% if not user.is_authenticated %}

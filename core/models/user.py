@@ -4,15 +4,14 @@ from django.db import models
 
 class User(AbstractUser):
     class RoleChoice(models.IntegerChoices):
-        USER = 0, 'Пользователь'
         MANAGER = 1, 'Менеджер'
         ADMIN = 2, 'Администратор'
 
     role = models.PositiveSmallIntegerField(
         choices=RoleChoice.choices, verbose_name='Роль',
-        default=RoleChoice.USER)
+        default=RoleChoice.MANAGER)
     allowed_categories = models.ManyToManyField(
-        'core.Category', blank=True)
+        'core.Category', blank=True, verbose_name='Доступные категории')
 
     class Meta:
         verbose_name = 'Пользователь'
