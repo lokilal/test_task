@@ -34,6 +34,16 @@
 
 {% include 'navigation.html' %}
 
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="{% if message.tags %}{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <div class="container-fluid" data-layout="container">
   <div class="content p-2">
     {% block content %}

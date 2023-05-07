@@ -25,6 +25,7 @@
         </div>
         <div class="col-lg-6" style="height: 40em">
           <h5>{{ object.title }}</h5>
+          <a href="{% url 'item-update' object.category.slug object.slug %}">Изменить</a>
           <a class="fs--1 mb-2 d-block" href="{% url 'category' object.category.slug %}">
             {{ object.category.title }}
           </a>

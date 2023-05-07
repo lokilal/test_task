@@ -7,6 +7,13 @@
           <a class="nav-link" href="{% url 'categories' %}">Все категории</a>
         </li>
       </ul>
+      <div class="ms-auto">
+        {% if not user.is_authenticated %}
+          <a href="{% url 'login' %}">Авторизация</a>
+        {% else %}
+          <a href="{% url 'logout' %}">Сменить пользователя</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>

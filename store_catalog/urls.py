@@ -17,11 +17,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 from core.autocomplete import ItemAutocompleteView
-from core.views import \
-    ItemDetailView, CategoryListView, CategoryDetailView
+from core.views import ItemDetailView, CategoryListView, \
+    CategoryDetailView, ItemUpdateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,9 +36,15 @@ urlpatterns = [
          CategoryDetailView.as_view(), name='category'),
     path('category/<slug:category_slug>/<slug:item_slug>/',
          ItemDetailView.as_view(), name='item-detail'),
+    path('category/<slug:category_slug>/<slug:item_slug>/update/',
+         ItemUpdateView.as_view(), name='item-update'),
 
     path('accounts/login/',
-         LoginView.as_view(template_name='login.html'),
-         name='login')
+         LoginView.as_view(template_name='users/login.html'),
+         name='login'),
+    path(
+        'logout/',
+        LogoutView.as_view(template_name='users/logout.html'),
+        name='logout'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

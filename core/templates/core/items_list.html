@@ -34,7 +34,9 @@
                   <div class="overflow-hidden">
                     <div class="position-relative rounded-top">
                       <a href="{{ obj.get_absolute_url }}">
-                        <img class="card-img-top" src="{{ obj.images.first.image.url }}" alt="">
+                        {% if obj.images.first.image %}
+                          <img class="card-img-top" src="{{ obj.images.first.image.url }}" alt="">
+                        {% endif %}
                       </a>
                     </div>
                     <div class="p-3">

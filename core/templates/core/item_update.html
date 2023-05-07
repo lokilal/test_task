@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Изменить товар
+{% endblock %}
+
+{% block content %}
+  <script>
+    function add_field() {
+      let formTemplate = document.querySelector('#add_image_template');
+      let totalFormsInput = document.querySelector('#id_images-TOTAL_FORMS');
+      let formsWrapper = document.querySelector('form table tbody');
+      let newForm = formTemplate.innerHTML.replaceAll('__prefix__', totalFormsInput.value);
+      formsWrapper.insertAdjacentHTML('beforeend', newForm);
+      totalFormsInput.value = parseInt(totalFormsInput.value) + 1;
+    }
+  </script>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        {{ image_formset.management_form }}
+          <div class="table-responsive">
+            <table class="table card-body">
+              <thead>
+              <tr>
+                <th>Фото</th>
+                <th>Удалить</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for error in image_formset.non_form_errors %}
+                <span style="color: red">{{ error }}</span>
+              {% endfor %}
+              {% for forms in image_formset %}
+                {{ forms.management_form }}
+                <tr>
+                  {{ forms.id }}
+                  {% for field in forms.visible_fields %}
+                    <td>
+                      {{ field }}
+                      {% for error in field.errors %}
+                        <span style="color: red">{{ error }}</span>
+                      {% endfor %}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        {% comment %}
+        {{ image_formset.non_form_errors.as_text }}
+        {{ image_formset.management_form }}
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <td>Картинка</td>
+              <td>Удалить</td>
+            </tr>
+          </thead>
+          <tbody>
+          {% for form in image_formset %}
+            {{ form.id }}
+            {% if form.non_field_errors.as_text %}
+              <div class="alert alert-danger p-1">
+                {{ form.non_field_errors.as_text }}
+              </div>
+            {% endif %}
+            <tr>
+              <td>{{ form.image }}</td>
+              <td>{{ form.DELETE }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% endcomment %}
+        <button type="button" class="btn btn-primary" onclick=add_field()>Добавить фото</button>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <template id="add_image_template">
+    <tr>
+      <td>{{ image_formset.empty_form.image }}</td>
+      <td>{{ image_formset.empty_form.visible_fields.DELETE }}</td>
+    </tr>
+  </template>
+
+{% endblock %}
