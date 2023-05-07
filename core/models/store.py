@@ -1,4 +1,7 @@
+from decimal import Decimal
+
 from autoslug import AutoSlugField
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
@@ -19,15 +22,15 @@ class Category(models.Model):
 
 class Item(models.Model):
     title = models.CharField(
-        max_length=128, verbose_name='Наименование')
+        max_length=128, verbose_name='Наименование', unique=True)
     price = models.DecimalField(
-        verbose_name='Цена',
-        max_digits=16, decimal_places=2)
+        verbose_name='Цена', max_digits=16,
+        decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE,
         related_name='items', verbose_name='Категория')
     article = models.CharField(
-        max_length=128, verbose_name='Артикул товара')
+        max_length=128, verbose_name='Артикул товара', unique=True)
     description = models.TextField(
         verbose_name='Описание')
     created_at = models.DateTimeField(
