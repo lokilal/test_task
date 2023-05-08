@@ -22,7 +22,10 @@ class ItemAutocompleteView(Select2QuerySetView):
         return ['title', 'article', 'price', 'description']
 
     def get_queryset(self):
+        super().get_queryset()
         if self.request.GET.get('category'):
-            return self.model.objects\
+            qs = self.model.objects\
                 .filter(category__slug=self.request.GET.get('category'))
-        return self.model.objects.all()
+        else:
+            qs = self.model.objects.all()
+        return self.get_search_results(qs, self.q)
