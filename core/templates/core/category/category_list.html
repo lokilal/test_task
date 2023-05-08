@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Категории
+{% endblock %}
+
+{% block content %}
+  {% for obj in object_list %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex">
+          <div>
+            <a href="{% url 'category-detail' obj.slug %}">{{ obj }}</a>
+          </div>
+          {% if user.is_admin %}
+            <div class="ms-auto">
+              <a class="btn btn-primary" href="{% url 'category-update' obj.slug %}">Редактировать категорию</a>
+              <a class="btn btn-danger" href="{% url 'category-delete' obj.slug %}">Удалить категорию</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  {% include 'includes/pagination.html' %}
+{% endblock %}

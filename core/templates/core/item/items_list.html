@@ -12,7 +12,7 @@
       <div class="card">
         <div class="card-header bg-light btn-reveal-trigger d-flex flex-between-center">
           <h5>Поиск товаров</h5>
-          <a href="{% url 'category' view.kwargs.category_slug %}" class="align-right text-600">Сбросить фильтры</a>
+          <a href="{% url 'category-detail' view.kwargs.category_slug %}" class="align-right text-600">Сбросить фильтры</a>
         </div>
         <div class="card-body">
           <form method="GET">
@@ -44,7 +44,7 @@
                         <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
                       </h5>
                       <p class="fs--1 mb-3">
-                        <a class="text-500" href="{% url 'category' obj.category.slug %}">{{ obj.category.title }}</a>
+                        <a class="text-500" href="{% url 'category-detail' obj.category.slug %}">{{ obj.category.title }}</a>
                       </p>
                     </div>
                   </div>

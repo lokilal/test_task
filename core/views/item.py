@@ -1,51 +1,17 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DeleteView, DetailView
 from django_filters.views import FilterView
 from extra_views import (CreateWithInlinesView, NamedFormsetsMixin,
-                         UpdateWithInlinesView)
+                         SuccessMessageMixin, UpdateWithInlinesView)
 
 from core.filters import ItemFilterSet
 from core.forms import ImageInline
 from core.models import Category, Item
+from core.views import AccessMixin
 
 
-class AccessMixin(LoginRequiredMixin):
-
-    def get_allowed_categories(self):
-        allowed_categories_ids = self.request.user.allowed_categories\
-            .values_list('id', flat=True)
-        return Category.objects.filter(id__in=allowed_categories_ids)
-
-    def get_allowed_items(self):
-        allowed_categories_ids = self.request.user.allowed_categories\
-            .values_list('id', flat=True)
-        return Item.objects.filter(category__in=allowed_categories_ids)
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_manager:
-            if self.model is Item:
-                return self.get_allowed_items()
-            return self.get_allowed_categories()
-        return super().get_queryset()
-
-
-class ItemDetailView(AccessMixin, DetailView):
-    template_name = 'core/item_detail.html'
-    model = Item
-    slug_url_kwarg = 'item_slug'
-
-
-class CategoryListView(AccessMixin, ListView):
-    template_name = 'core/categories.html'
-    model = Category
-    paginate_by = 30
-
-
-class CategoryDetailView(AccessMixin, FilterView):
-    template_name = 'core/items_list.html'
+class ItemsInCategoryDetailView(AccessMixin, FilterView):
+    template_name = 'core/item/items_list.html'
     model = Item
     filterset_class = ItemFilterSet
     paginate_by = 60
@@ -60,8 +26,14 @@ class CategoryDetailView(AccessMixin, FilterView):
         return kwargs
 
 
+class ItemDetailView(AccessMixin, DetailView):
+    template_name = 'core/item/item_detail.html'
+    model = Item
+    slug_url_kwarg = 'item_slug'
+
+
 class ItemMixin(AccessMixin, SuccessMessageMixin, NamedFormsetsMixin):
-    template_name = 'core/item_form.html'
+    template_name = 'core/item/item_form.html'
     model = Item
     slug_url_kwarg = 'item_slug'
     fields = ['title', 'price', 'description', 'article', 'category']
@@ -89,9 +61,9 @@ class ItemCreateView(ItemMixin, CreateWithInlinesView):
 
 class ItemDeleteView(AccessMixin, DeleteView):
     model = Item
-    template_name = 'core/item_delete.html'
+    template_name = 'core/item/item_delete.html'
     slug_url_kwarg = 'item_slug'
 
     def get_success_url(self):
-        return reverse('category',
+        return reverse('category-detail',
                        kwargs={'category_slug': self.object.category.slug})

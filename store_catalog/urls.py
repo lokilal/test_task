@@ -20,8 +20,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
 from core.autocomplete import ItemAutocompleteView
-from core.views import (CategoryDetailView, CategoryListView, ItemCreateView,
-                        ItemDeleteView, ItemDetailView, ItemUpdateView)
+from core.views import (CategoryCreateView, CategoryDeleteView,
+                        CategoryListView, CategoryUpdateView, ItemCreateView,
+                        ItemDeleteView, ItemDetailView,
+                        ItemsInCategoryDetailView, ItemUpdateView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,9 +33,16 @@ urlpatterns = [
          name='item-select2'),
 
     path('category/',
-         CategoryListView.as_view(), name='categories'),
+         CategoryListView.as_view(), name='category-list'),
+    path('category/create/',
+         CategoryCreateView.as_view(), name='category-create'),
     path('category/<slug:category_slug>/',
-         CategoryDetailView.as_view(), name='category'),
+         ItemsInCategoryDetailView.as_view(), name='category-detail'),
+    path('category/<slug:category_slug>/update/',
+         CategoryUpdateView.as_view(), name='category-update'),
+    path('category/<slug:category_slug>/delete/',
+         CategoryDeleteView.as_view(), name='category-delete'),
+
     path('category/<slug:category_slug>/<slug:item_slug>/',
          ItemDetailView.as_view(), name='item-detail'),
     path('category/<slug:category_slug>/<slug:item_slug>/update/',
@@ -46,9 +55,8 @@ urlpatterns = [
     path('accounts/login/',
          LoginView.as_view(template_name='users/login.html'),
          name='login'),
-    path(
-        'logout/',
-        LogoutView.as_view(template_name='users/logout.html'),
-        name='logout'),
+    path('logout/',
+         LogoutView.as_view(template_name='users/logout.html'),
+         name='logout'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
