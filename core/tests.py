@@ -116,5 +116,17 @@ class CoreTestCase(TestCase):
 
         for category in categories:
             response = self.first_manager_client.get(
-                reverse('category', kwargs={'category_slug': category.slug}))
+                reverse('category-detail', kwargs={'category_slug': category.slug}))
             self.assertEquals(response.status_code, 200)
+
+    def test_managers_cannot_delete_category(self):
+        response = self.first_manager_client.post(
+            reverse('category-delete',
+                    kwargs={'category_slug': self.first_category.slug}))
+        self.assertEquals(response.status_code, 403)
+
+    def test_managers_cannot_update_category(self):
+        response = self.first_manager_client.post(
+            reverse('category-update',
+                    kwargs={'category_slug': self.first_category.slug}))
+        self.assertEquals(response.status_code, 403)

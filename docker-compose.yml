@@ -7,3 +7,18 @@ services:
       POSTGRES_PASSWORD: pass
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build: .
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    volumes:
+      - .:/web_django
+    command: python manage.py runserver 0.0.0.0:8000
+
+volumes:
+  postgres_data:
