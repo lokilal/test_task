@@ -12,6 +12,7 @@ class UserAdmin(BaseUserAdmin):
             'allowed_categories'
         )}),
     )
+    list_filter = BaseUserAdmin.list_filter + ('role', )
 
 
 class ImageInline(admin.TabularInline):
@@ -21,9 +22,13 @@ class ImageInline(admin.TabularInline):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'article']
     inlines = [ImageInline]
+    list_filter = ['category']
+    list_display = ['title', 'article', 'price']
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ['title']
     list_display = ['title', 'slug']

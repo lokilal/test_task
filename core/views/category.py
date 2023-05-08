@@ -14,6 +14,7 @@ class CategoryListView(AccessMixin, ListView):
 class CategoryCreateView(OnlyAdminMixin, CreateView):
     model = Category
     template_name = 'core/category/category_form.html'
+    success_url = reverse_lazy('category-list')
     fields = ['title']
 
 
@@ -21,7 +22,7 @@ class CategoryUpdateView(OnlyAdminMixin, UpdateView):
     model = Category
     template_name = 'core/category/category_form.html'
     slug_url_kwarg = 'category_slug'
-    success_url = reverse_lazy('category_list')
+    success_url = reverse_lazy('category-list')
     fields = ['title']
 
 
@@ -29,3 +30,4 @@ class CategoryDeleteView(OnlyAdminMixin, DeleteView):
     model = Category
     template_name = 'core/category/category_delete.html'
     slug_url_kwarg = 'category_slug'
+    success_url = reverse_lazy('category-list')
